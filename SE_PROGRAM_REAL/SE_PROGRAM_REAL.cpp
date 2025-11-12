@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 int main()
 {
-    std::cout << "HELP ME";
     int Hi = 1;
     short process = 1;
     while (process == 1) {
@@ -15,12 +14,12 @@ int main()
         if (Hi == 1) {
             Hi++;
             std::cout
-                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 << "| Welcome to our program dear user                             |\n"
-                << "|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n"
+                << "|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n"
                 << "| Before calculation you must to input some data. Prepare them |\n"
                 << "| If you ready for calculation press any button                |\n"
-                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
             std::cin.get();
             system("cls");
         }
@@ -160,11 +159,11 @@ int main()
             << "Your n = " << n << "\n"
             << "Your step = " << step << "\n"
             << "Your range of x (" << a << "," << b << ")" << "\n"
-            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             << "| Press any buton if you agree with this data  |\n"
             << "| Press 1 if you want to restart inputing data |\n"
             << "| Press 2 if you want to close the program     |\n"
-            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             << ">> ";
 
         int timeless;
@@ -188,9 +187,9 @@ int main()
             process = 0;
 
             std::cout
-                << "~~~~~~~~~~~~\n"
+                << "~~~~~~~~~~~~~~~~\n"
                 << "| Your answers |\n"
-                << "~~~~~~~~~~~~\n";
+                << "~~~~~~~~~~~~~~~~\n";
             //check a < b or no
             if (a < b) {
                 for (double x = a; x <= b; x = x + step) {
@@ -254,10 +253,10 @@ int main()
             while (true) {
 
                 std::cout
-                    << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                    << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                     << "| Calculate other numbers >> input 1 |\n"
                     << "| Exit the program >> input 2        | \n"
-                    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                    << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                     << ">> ";
 
                 std::cin >> process;
