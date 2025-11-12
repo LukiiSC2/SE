@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 int main()
 {
+    std::cout << "HELP ME";
     int Hi = 1;
     short process = 1;
     while (process == 1) {
