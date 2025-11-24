@@ -1,8 +1,12 @@
 ﻿#include <iostream>
 #include <limits>
+#include <cstdlib>
+#include "InputN.h"
+#include "InputPositiveStep.h"
+#include "InputNegativeStep.h"
+#include "Calculator.h"
 
 void FinishScreen();
-void EndScreen();
 void ResultScreen(int n, double a, double b, double step);
 
 void WelcomeScreen() {
@@ -17,43 +21,40 @@ void WelcomeScreen() {
     system("cls");
 }
 
+void EndScreen() {
+    std::cout
+        << "Thank you for using our program\n"
+        << "We hope that you have find your result\n"
+        << "Goodbye \n\n\n\n\n\n";
+    exit(0);
+}
+
+void CheckIfNotNumber() {
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        throw std::invalid_argument("INPUT ONLY NUMBERS");
+    }
+}
+
 int inputN() {
-    int n;
     while (true) {
-        std::cout << "\nInput n >> ";
-        double timeless;
-        std::cin >> timeless;
+        try {
+            std::cout << "\nInput n >> ";
+            double n;
+            std::cin >> n;
 
-        if (std::cin.fail()) {
-            std::cout
-                << "\n###################### \n"
-                << "# INPUT ONLY NUMBERS #\n"
-                << "###################### \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
+            CheckIfNotNumber();
+
+            int validated = ValidateN(n);
+
+            system("cls");
+            return validated;
         }
-
-        n = timeless;
-
-        if (n != timeless) {
-            std::cout
-                << "\n#######################\n"
-                << "# Input only integers #\n"
-                << "#######################\n";
-            continue;
+        catch (const std::exception& e) {
+            std::cout << "Error: " << e.what() << '\n';
         }
-
-        if (n <= 1) {
-            std::cout
-                << "\n########################\n"
-                << "# Input n which is > 1 #\n"
-                << "########################\n";
-            continue;
-        }
-        system("cls");
-        return n;
-
+        
     }
 }
 
@@ -62,92 +63,70 @@ double inputA() {
 
     while (true) {
         double a;
-        std::cout << "\nInput a >> ";
-        std::cin >> a;
+        try {
+            std::cout << "\nInput a >> ";
+            std::cin >> a;
 
-        if (std::cin.fail()) {
-            std::cout
-                << "\n###################### \n"
-                << "# INPUT ONLY NUMBERS #\n"
-                << "###################### \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
+            CheckIfNotNumber();
+
+            system("cls");
+            return a;
         }
-        system("cls");
-        return a;
+        catch (const char* errorhandle) {
+            std::cout << "ERROR " << errorhandle << "\n";
+        }
     }
 }
 
 double inputB() {
+    double b;
     while (true) {
-        double b;
-        std::cout << "\nInput b >> ";
-        std::cin >> b;
-        if (std::cin.fail()) {
-            std::cout
-                << "\n###################### \n"
-                << "# INPUT ONLY NUMBERS #\n"
-                << "###################### \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
+        try {
+            std::cout << "\nInput b >> ";
+            std::cin >> b;
+
+            CheckIfNotNumber();
+
+            system("cls");
+            return b;
         }
-        system("cls");
-        return b;
+        catch (const char* errorhandle) { 
+            std::cout << "ERROR " << errorhandle << "\n"; 
+        }
     }
 }
 
 double inputStep(double a, double b) {
     double step;
     while (a < b) {
-        std::cout << "\nInput step >> ";
-        std::cin >> step;
+        try {
+            std::cout << "\nInput step >> ";
+            std::cin >> step;
 
-        if (std::cin.fail()) {
-            std::cout
-                << "\n###################### \n"
-                << "# INPUT ONLY NUMBERS #\n"
-                << "###################### \n \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
-        }
+            CheckIfNotNumber();
 
-        if (step <= 0) {
-            std::cout
-                << "\n###########################\n"
-                << "# Input step which is > 0 #\n"
-                << "###########################\n";
-            continue;
+            double validated = ValidatenPositiveStep(step);
+            system("cls");
+            return step;
         }
-        system("cls");
-        return step;
+        catch (const std::exception& e) {
+            std::cout << "Error: " << e.what() << '\n';
+        }
     }
     while (a > b) {
-        std::cout << "\nInput step >> ";
-        std::cin >> step;
+        try {
+            std::cout << "\nInput step >> ";
+            std::cin >> step;
 
-        if (std::cin.fail()) {
-            std::cout
-                << "\n###################### \n"
-                << "# INPUT ONLY NUMBERS #\n"
-                << "###################### \n \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
+            CheckIfNotNumber();
+
+            double validate = ValidatenNegativeStep(step);
+            system("cls");
+            return step;
         }
-
-
-        if (step >= 0) {
-            std::cout
-                << "\n###########################\n"
-                << "# Input step which is < 0 #\n"
-                << "###########################\n";
-            continue;
+        catch (const std::exception& e) {
+            std::cout << "Error: " << e.what() << '\n';
         }
-        system("cls");
-        return step;
     }
     if (a == b) {
         std::cout
@@ -158,52 +137,39 @@ double inputStep(double a, double b) {
 
 void AgreeScreen(int n, double a, double b, double step) {
     while (true) {
-        std::cout
-            << "Your n = " << n << "\n"
-            << "Your range of x (" << a << "," << b << ")" << "\n"
-            << "Your step = " << step << "\n"
-            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            << "| Press 0 if you want to close the program     |\n"
-            << "| Press 1 if you want to restart inputing data |\n"
-            << "| Press 2 if you agree with this data          |\n"
-            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            << ">> ";
-        double timeless;
-        std::cin >> timeless;
-
-        if (std::cin.fail()) {
+        try {
             std::cout
-                << "\n####################### \n"
-                << "# INPUT ONLY 0,1 or 2 #\n"
-                << "####################### \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
-        }
+                << "Your n = " << n << "\n"
+                << "Your range of x (" << a << "," << b << ")" << "\n"
+                << "Your step = " << step << "\n"
+                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                << "| Press 0 if you want to close the program     |\n"
+                << "| Press 1 if you want to restart inputing data |\n"
+                << "| Press 2 if you agree with this data          |\n"
+                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                << ">> ";
+            double temp;
+            std::cin >> temp;
 
-        if (timeless != 0 && timeless != 1 && timeless != 2) {
-            std::cout
-                << "\n########################\n"
-                << "# Input only 0, 1 or 2 #\n"
-                << "########################\n";
-            continue;
+            CheckIfNotNumber();
+
+            if (temp != 0 && temp != 1 && temp != 2) {
+                throw "Input only 0, 1 or 2";
+                continue;
+            }
+            system("cls");
+            if (temp == 0) {
+                EndScreen();
+            }
+            else if (temp == 1) return;
+            else ResultScreen(n, a, b, step);
+            return;
         }
-        system("cls");
-        if (timeless == 0) {
-            EndScreen();
+        catch (const char* errorhandle) {
+            std::cout << "ERROR " << errorhandle << "\n";
         }
-        else if (timeless == 1) return;
-        else ResultScreen(n, a, b, step);
     }
     system("cls");
-}
-
-void EndScreen() {
-    std::cout
-        << "Thank you for using our program\n"
-        << "We hope that you have find your resuld\n"
-        << "Goodbye\n\n\n\n\n\n";
-    exit(0);
 }
 
 void ResultScreen(int n, double a, double b, double step) {
@@ -213,94 +179,52 @@ void ResultScreen(int n, double a, double b, double step) {
         << "~~~~~~~~~~~~~~~~\n";
     if (a < b) {
         for (double x = a; x <= b; x = x + step) {
-            double mlt = 1;
-            if (x < 0) {
-                double i = 1;
-                while (i <= n) {
-                    mlt = mlt * (x + 2) / (i - x);
-                    i++;
-                }
-            }
-            else {
-                int j = 1;
-                while (j <= n) {
-                    double sum = 0;
-                    int i = 1;
-                    while (i <= (n + 1)) {
-                        sum = sum + 3 * x + ((i + x) / (i * j));
-                        i++;
-                    }
-                    mlt = mlt * sum;
-                    j++;
-                }
-            }
-
             //output answers if a < b
-            std::cout << "Your x = " << x << "     Result = " << mlt << "\n";
+            std::cout << "Your x = " << x << "     Result = " << Calculator(x, n) << "\n";
         }
     }
-    else {
+    else if (a>b) {
         for (double x = a; x >= b; x = x + step) {
-            double mlt = 1;
-            if (x < 0) {
-                double i = 1;
-                while (i <= n) {
-                    mlt = mlt * (x + 2) / (i - x);
-                    i++;
-                }
-            }
-            else {
-                int j = 1;
-                while (j <= n) {
-                    double sum = 0;
-                    int i = 1;
-                    while (i <= (n + 1)) {
-                        sum = sum + 3 * x + ((i + x) / (i * j));
-                        i++;
-                    }
-                    mlt = mlt * sum;
-                    j++;
-                }
-            }
-            //output answers if a > b
-            std::cout << "Your x = " << x << "     Result = " << mlt << "\n";
+            //output answers if a > b 
+            std::cout << "Your x = " << x << "     Result = " << Calculator(x, n) << "\n";
         }
     }
+    else { std::cout << "Your x = " << a << "     Result = " << Calculator(a, n) << "\n"; }
+
     FinishScreen();
+    return;
 }
 
 void FinishScreen() {
     short timeless;
     while (true) {
+        try {
+            std::cout
+                << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                << "| Exit the program >> input 0        |\n"
+                << "| Calculate other numbers >> input 1 | \n"
+                << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                << ">> ";
 
+            std::cin >> timeless;
 
-        std::cout
-            << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            << "| Exit the program >> input 0        |\n"
-            << "| Calculate other numbers >> input 1 | \n"
-            << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            << ">> ";
+            CheckIfNotNumber();
 
-        std::cin >> timeless;
+            if (timeless != 1 && timeless != 0) {
+                throw "Input 1 or 2 please\n";
+                continue;
+            }
 
-        if (std::cin.fail()) {
-            std::cout << "Input 1 or 2 please\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
+            if (timeless == 0) EndScreen();
+            else if (timeless == 1) return;
         }
-
-        if (timeless != 1 && timeless != 0) {
-            std::cout << "Input 1 or 2 please\n";
-            continue;
+        catch (const char* errorhandle) {
+            std::cout << "ERROR " << errorhandle << "\n";
         }
-
-        if (timeless == 0) EndScreen();
     }
 }
 
 int main() {
-    short process = 1;
     WelcomeScreen();
     while (true) {
         int n;
